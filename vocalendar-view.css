@@ -1,0 +1,537 @@
+.calendar-container {
+	font-family: Arial, sans-serif;
+	font-size: small;
+}
+
+.view-container-border {
+	padding: 0 8px;
+	position: relative;
+	background-color: #c5c5c5;
+}
+
+.nav-table td {
+	vertical-align: middle;
+}
+
+.today-button {
+	font-size: 85%;
+	padding: 0 1px;
+	vertical-align: middle;
+}
+
+.navbutton {
+	width: 29px;
+	height: 17px;
+	padding: 0 2px;
+	border: 0 none;
+	cursor: pointer;
+}
+
+.navbutton {
+	vertical-align: middle;
+}
+
+.navBack {
+	margin-left: 2px;
+}
+
+.navBack {
+	background-position: -241px -17px;
+}
+
+.navForward {
+	background-position: -241px 0;
+}
+
+.mv-container {
+	height: 100%;
+	position: relative;
+	white-space: nowrap;
+	font-size: 11px;
+	line-height:14px;
+}
+
+.mv-daynames-table {
+	padding: 0;
+	table-layout: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: #c5c5c5;
+}
+
+.mv-dayname {
+	padding:2px;
+	color: #666666;
+	font-weight:normal;
+}
+
+.mv-event-container {
+	overflow:hidden;
+	position:absolute;
+	top:14px;
+	bottom:0;
+	left:0;
+	width:100%;
+	background:white;
+	border-top: 1px solid #41A587;
+	border-bottom: 1px solid #41A587;
+}
+
+.month-row {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	overflow: hidden;
+}
+
+.st-bg-table {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	table-layout: fixed;
+}
+
+.st-bg {
+	border-left: 1px solid #c5c5c5;
+}
+
+/*
+.st-bg-fc {
+	border-left: 0 none;
+}
+*/
+
+.st-grid {
+	font-size: 11px;
+	line-height: 14px;
+	position: relative;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.st-dtitle {
+	border-left: 1px solid #c5c5c5;
+	border-top: 1px solid #c5c5c5;
+	background: #eeeeee;
+	color: #000;
+	padding: 0 2px 0 0;
+	text-align: right;
+	line-height: 16px;
+	overflow: hidden
+}
+
+.st-dtitle-sun {
+	background: #fff2f6;
+}
+
+.st-dtitle-sat {
+	background: #f0f8ff;
+}
+
+.st-dtitle-nonmonth {
+	color: #aaa;
+	background: #fafafa;
+}
+
+.st-dtitle-today {
+	background-color: #fae183;
+	border: 1px solid #fae183;
+}
+
+.st-dtitle-fc {
+	border-left: 1px solid #c5c5c5;
+}
+
+.st-c-pos {
+	padding: 1px 1px 0 2px;
+	cursor: pointer;
+	font-family: Verdana,sans-serif;
+}
+
+.te {
+	padding: 1px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.te-t {
+	font-size: 91%;
+	font-family: Arial,sans-serif;
+	font-weight: bold;
+	white-space: nowrap;
+	line-height: 1.2
+}
+
+.rb-n {
+	padding:1px 1px 1px 3px;
+	color: #fff;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.st-more-c {
+	text-align: center;
+}
+
+.st-more {
+	color: #20c;
+	text-align: center;
+	cursor: pointer;
+	font-family: Arial,sans-serif;
+}
+
+.st-moreul {
+	text-decoration: underline;
+}
+
+.cc {
+	position: absolute;
+	border: 1px solid gray;
+	background-color: white;
+	font-size: 11px;
+	font-weight: normal;
+	font-family: Arial,sans-serif;
+}
+
+.cc-titlebar {
+	background-color: #eeeeee;
+}
+
+.cc-titlebar-sat {
+	background-color: #f0f8ff;
+}
+
+.cc-titlebar-sun {
+	background-color: #fff2f6;
+}
+
+.cc-title {
+	padding: 2px;
+	font-weight: bold;
+}
+
+.cc-close {
+	position: absolute;
+	margin: 4px 2px 0px 0px;
+	right: 0;
+	cursor: pointer;
+	width: 14px;
+	height: 13px;
+	background-position:  0 -50px;
+}
+
+.bubble{
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-size: 9pt;
+}
+
+.bubble-table {
+	table-layout: fixed;
+	width: 100%;
+}
+
+.bubble-cell-side {
+	width: 25px;
+}
+
+.bubble-cell-main {
+	background-color: #fff;
+	width: 100%;
+}
+
+.bubble-sprite {
+	position: absolute;
+	width: 148px;
+	height: 96px;
+}
+
+.bubble-corner {
+	position: relative;
+	width: 25px;
+	height: 25px;
+	overflow: hidden;
+}
+
+.bubble-tl {
+	left: 0;
+}
+
+.bubble-tr {
+	left: -25px;
+}
+
+.bubble-bl {
+	left: 0;
+	top: -25px;
+}
+
+.bubble-br {
+	left: -25px;
+	top: -25px;
+}
+
+.bubble-top, .bubble-bottom {
+	height: 24px;
+	background: #fff;
+}
+
+.bubble-top {
+	border-top: 1px solid #ababab;
+}
+
+.bubble-bottom {
+	border-bottom: 1px solid #ababab;
+}
+
+.bubble-mid {
+	border-left: 1px solid #ababab;
+	border-right: 1px solid #ababab;
+	padding: 0 20px;
+	background: #fff;
+}
+
+.bubble-closebutton {
+	right: 10px;
+	top: 10px;
+	width: 14px;
+	height: 13px;
+	cursor: pointer;
+	position: absolute;
+	background-position: 0 -50px;
+}
+
+.bubble .details .title {
+	font-weight: bold;
+	font-size: medium;
+}
+
+.detail-content {
+	padding: 1em 0;
+}
+
+.detail-item {
+	padding: 0;
+	margin: 0;
+}
+
+.event-details-label {
+	display: block;
+	margin: 0;
+	padding: 3px 0;
+	width: 7em;
+	clear: left;
+	float: left;
+	color: #4e4e4e;
+	font-size: 100%;
+	font-weight: bold;
+}
+
+.event-when, .event-where, .event-description, .event-who, .event-going {
+	display: block;
+	margin-left: 7em;
+	padding: 3px 0;
+}
+
+.bubble .separator {
+	height: 1px;
+	line-height: 0;
+	font-size: 0;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+.bubble .detail-content {
+	padding-bottom: 0;
+}
+
+.bubble .event-description {
+	white-space: pre-wrap;
+}
+
+.loading {
+	color: #fff;
+	background-color: #c44;
+	padding: 2px;
+	position: absolute;
+	top: 0;
+	right: 2px;
+	z-index: 10001;
+	display: none;
+	white-space: nowrap;
+}
+
+/* **************************************** */
+
+
+/* misc interface */
+.date-picker-arrow-on,
+.drag-lasso,
+.agenda-scrollboxBoundary {
+background-color: #c5c5c5 !important;
+}
+td#timezone {
+color: #000000 !important;
+}
+
+/* tabs */
+td#calendarTabs1 div.ui-rtsr-selected,
+div.view-cap {
+background-color: #c5c5c5 !important;
+}
+td#calendarTabs1 div.ui-rtsr-selected {
+color: #000000 !important;
+}
+td#calendarTabs1 div.ui-rtsr-unselected {
+background-color: #eeeeee !important;
+color: #000000 !important;
+}
+
+/* week view */
+table.wk-weektop,
+th.wk-dummyth {
+/* days of the week */
+background-color: #c5c5c5 !important;
+}
+div.wk-dayname {
+color: #000000 !important;
+}
+div.wk-today {
+background-color: #eeeeee !important;
+border: 1px solid #EEEEEE !important;
+color: #000000 !important;
+}
+td.wk-allday {
+background-color: #EEEEEE !important;
+}
+td.tg-times {
+background-color: #eeeeee !important;
+color: #000000 !important;
+}
+div.tg-today {
+background-color: #ffffcc !important;
+}
+
+/* month view */
+td.st-bg-today {
+background-color: #ffffcc !important;
+}
+
+/* agenda view */
+div.scrollbox {
+border-top: 1px solid #c5c5c5 !important;
+border-left: 1px solid #c5c5c5 !important;
+}
+div.underflow-top {
+border-bottom: 1px solid #c5c5c5 !important;
+}
+div.date-label {
+background-color: #eeeeee !important;
+color: #000000 !important;
+}
+div.event {
+border-top: 1px solid #c5c5c5 !important;
+}
+div.day {
+border-bottom: 1px solid #c5c5c5 !important;
+}
+
+/*カレンダー*/
+td.st-bg-today { background-color:inherit; }
+.t2-embed { margin: 0px; }
+.t1-embed { margin: 0px; }
+.rb-n { -webkit-border-radius: 0px; } /*終日イベント*/
+.view-container { overflow:visible !important; }
+
+/*ボタン*/
+.bubble-closebutton,
+.cc-close,
+.navForward,
+.navBack { background-image: url(http://curioustander.com/vocalendar/images/combined_v22.png); }
+.navbutton { padding: 0px; }
+.today-button {
+border: none;
+color: #41A587;
+cursor: pointer;
+margin: 0;
+padding: 0px 5px;
+background-color: #C3EEE4; }
+
+/*タブ
+.nav-table tr {
+height: 28px;
+}
+#calendarTabs1 {
+display: block;
+position: absolute;
+right: 121px; top: -2px;
+padding-left: 10px; }
+#calendarTabs1 tr td {
+height: 28px;}
+.header { padding: 0px; }
+.ui-rtsr-name { cursor: pointer; }
+td#calendarTabs1 div.ui-rtsr-unselected,
+td#calendarTabs1 div.ui-rtsr-selected {
+height: 20px; }
+.t1-embed, .t2-embed {
+height: 1px !important; }
+*/
+.ui-rtsr { padding-left: 1px; }
+
+/*ポップアップカレンダー*/
+.date-picker-on { border: 1px solid #C3EEE4;}
+.dp-popup { background-color: #C3EEE4; }
+.dp-weekend-selected { background-color: #C3EEE4; }
+.dp-weekday-selected { background-color: #C3EEE4; }
+.dp-popup { border: none; box-shadow: 0px 0px 20px #666666; }
+
+/*ポップアップイベントリスト*/
+.cc { box-shadow: 0px 0px 20px #666666; border: 1px solid #ababab; }
+
+/*ポップアップイベント*/
+.bubble-sprite { background-image: url(http://curioustander.com/vocalendar/images/bubble_combined_v2.png); }
+.bubble-table { box-shadow: 0px 0px 20px #666666; }
+
+
+/*テキスト*/
+.rb-n,
+.te-s { font-size: 11px; letter-spacing: -1px; }
+.dp-cur, .dp-prev, .dp-next { color:#41A587; }
+
+/* リンク */
+.agenda-more,
+.st-more { color: #41A587; }
+
+/* カレンダーセレクタ */
+.calendar-nav {
+display: block;
+position: absolute;
+right: 140px; top: 0px;
+padding-top: 5px;
+text-align: right; }
+.calendar-list {
+box-shadow: 0px 0px 20px #666666;
+border: 1px solid #ababab;
+padding: 10px; }
+.calendar-row {
+padding: 2px 0px; }
+.calendar-list input {
+margin-right: 1em; }
+#calendarListButton1 {
+margin-top: -3px; }
+/*
+.calendar-nav:before {
+font-size: 12px;
+color: black;
+content: "表示切り替え";
+margin-right: 5px; }
+*/
+
+#monthOfView  { padding: 2px 4px 2px; }
+
+*{font-weight:normal !important;font-style:normal !important;font-stretch:normal !important}
