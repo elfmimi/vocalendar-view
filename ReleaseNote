@@ -1,3 +1,12 @@
+== v0.2.0 (2014-02-06)
+
+ * Works with older versions of jQuery.
+ * Resize to fit just within the enclosing element.
+ * Scroll aware positioning of the popup windows.
+ * Display 'location' in the details.
+ * Now it's proof against the Closure Compiler.
+ * Small fix in CSS.
+
 == v0.1.0 (2014-02-03)
 
  * Initial version.

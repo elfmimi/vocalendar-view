@@ -14,8 +14,6 @@ nav1_height = 24
 footer1_height = 20
 record_height = 17
 
-detail_popup_frame_height = 100
-
 today = (new Date(Date.now()))
 show_year = today.getFullYear()
 show_month = today.getMonth()
@@ -34,6 +32,7 @@ ajax_request =
 sorted_events =
     undefined
 
+parentContainer =
 eventDetailPopup = 
 moreEventsPopup =
     undefined
@@ -83,8 +82,10 @@ calc_param = () ->
 
 createView = (parent) ->
 
+    parentContainer = parent
+
     container = $('<div id=container class=locale-ja style="width: 100%; position: relative; height: 100%;">')
-        .appendTo parent
+        .appendTo parentContainer
 
     calendarContainer = $('<div class=calendar-container>')
         .appendTo container
@@ -122,7 +123,7 @@ createView = (parent) ->
         .append $('<tbody>') \
         .append $('<tr>') \
         .append $('<td valign=bottom>') \
-        .append (statusLine = $('<div style="text-align: right; height: 17">').text(default_status_text))
+        .append (statusLine = $('<div style="text-align: right;">').text(default_status_text))
 
     loading1 = $('<div id=loading1 class=loading style="right: 25px; display: none;">')
         .appendTo( calendarContainer1 )
@@ -135,15 +136,14 @@ createView = (parent) ->
     mvEventContainer2 = $('<div id=mvEventContainer2 class=mv-event-container>')
         .appendTo mvContainer
 
-    mvDaynamesTable
-        .append $('<tbody>') \
-        .append $('<tr>') \
-        .append (
-            for c in [0..7-1]
-                $('<th class=mv-dayname>')
-                    .append day_names[(c+start_of_week)%7]
-        )
-        
+    do->
+        mvDaynamesTable.append $('<tbody>').append tr = $('<tr>')
+        for c in [0..7-1]
+            $('<th class=mv-dayname>')
+                .text( day_names[(c+start_of_week)%7] )
+                .appendTo tr
+        undefined
+
     # refill_calendar() については前方参照している
     today_btn.click () ->
         today = (new Date(Date.now()))
@@ -313,41 +313,42 @@ text_of_timespan = (allday, start_value, end_value) ->
 positionDetail = (rect) ->
     popup = eventDetailPopup
     parent = popup.parent()
+    window_left = $(window).scrollLeft()
+    window_top = $(window).scrollTop()
     window_width = $(window).width()
     window_height = $(window).height()
     width = popup.width()
     height = popup.height()
-    max_width = window_width - 120
-    width = max_width if width > max_width
-    left = (window_width - popup.width()) / 2
     margin_v = 8
     margin_h = 8
     spacing_v = 4
     pos_x = rect.pageX
 
-    if pos_x - width / 2 >= margin_h and
-    pos_x + width / 2 <= window_width - margin_h
+    if pos_x - width / 2 >= window_left + margin_h and
+    pos_x + width / 2 <= window_left + window_width - margin_h
         left = pos_x - width / 2
-    else if pos_x - width / 2 < margin_h
-        left = margin_h
+    else if pos_x - width / 2 < window_left + margin_h
+        left = window_left + margin_h
     else
-        left = window_width - margin_h - width
+        left = window_left + window_width - margin_h - width
 
-    if height <= rect.top - spacing_v
+    if height <= rect.top - window_top - spacing_v
         top = rect.top - spacing_v - height
-    else if rect.top + rect.height + spacing_v + height <= window_height
+    else if rect.top + rect.height + spacing_v + height <= window_top + window_height
         top = rect.top + rect.height + spacing_v
     else if height + margin_v * 2 <= window_height
-        top = window_height - height - margin_v
+        top = window_top + window_height - height - margin_v
     else if height <= window_height
-        top = window_height - height
+        top = window_top + window_height - height
     else
-        top = margin_v
+        top = window_top + margin_v
         detail_content = $('.detail-content', popup)
-        detail_content.css('height', window_height - margin_v * 2 - detail_popup_frame_height).css('overflow-y', 'scroll')
-    left -= parent.offset().left
+        detail_content.css('height', window_height - margin_v * 2 - (height - detail_content.height())).css('overflow-y', 'scroll')
+    # eventDetailPopup は .bubble で position:absolute になっているが
+    # どこが基準になるか的確に知る方法はある？
+    left -= parentContainer.offset().left
     top -= parent.offset().top
-    popup.css('left', left).css('top', top).css('width', width)
+    popup.css('left', left).css('top', top) # .css('width', width)
     popup.css( 'display', 'none' ).fadeIn( 'fast' )
 
 showDetail = (event, rect_with_pos) ->
@@ -359,7 +360,11 @@ showDetail = (event, rect_with_pos) ->
         if eventDetailPopup.data().event == event
             eventDetailPopup = undefined
             return
-    eventDetailPopup = $('<div class=bubble style="z-index: 3001; left: 0px; top: 0px; width: 660px; visibility: visible">')
+    max_width = $(window).width() - 120
+    width = 660
+    width = max_width if width > max_width
+    eventDetailPopup = $('<div class=bubble style="z-index: 3001; left: 0px; top: 0px; visibility: visible">')
+        .css( 'width', width )
         .appendTo( viewContainer1 )
         .css( 'display', 'none' )
         .data( { event: event } )
@@ -502,8 +507,12 @@ positionMore = () ->
     base = viewContainer1
     base_pos = base.offset()
     base_width = base.width()
+    window_top = $(window).scrollTop()
+    window_left = $(window).scrollLeft()
+    window_width = $(window).width()
     window_height = $(window).height()
-    margin = footer1_height
+    margin_h = 4
+    margin_v = footer1_height
     width = moreEventsPopup.width()
     height = moreEventsPopup.height()
     rc = moreEventsPopup.data()
@@ -511,8 +520,9 @@ positionMore = () ->
     left = node_pos.left - base_pos.left
     top = node_pos.top - base_pos.top
     top -= 3
-    top = window_height - base_pos.top - margin - height if top + height > window_height - base_pos.top - margin
-    left = base_width - width if left + width > base_width
+    top = window_top + window_height - base_pos.top - margin_v - height if top + height > window_top + window_height - base_pos.top - margin_v
+    left = window_left + margin_h - base_pos.left if node_pos.left - margin_h < window_left
+    left = window_left + window_width - margin_h - width - base_pos.left if node_pos.left + width + margin_h > window_left + window_width
     moreEventsPopup.css('left', left).css('top', top)
 
 showMore = (r, c) ->
@@ -725,15 +735,16 @@ fill_week = (records, events, first_date, r) ->
             insertMore( records[rr], more[c], r, c )
             
 
+# Closure Compiler に通すためjsonのプロパティーへのアクセスは文字列で行う事
 composeEvent = (core, theme) ->
     event = { core, theme }
-    event.allday = core.allday
+    event.allday = core['allday']
     if event.allday
-        event.start_date_value = Date.parse(core.start_date) - day_unit*9/24
-        event.end_date_value = Date.parse(core.end_date) - day_unit*9/24
+        event.start_date_value = Date.parse(core['start_date']) - day_unit*9/24
+        event.end_date_value = Date.parse(core['end_date']) - day_unit*9/24
     else
-        event.start_date_value = Date.parse(core.start_datetime)
-        event.end_date_value = Date.parse(core.end_datetime)
+        event.start_date_value = Date.parse(core['start_datetime'])
+        event.end_date_value = Date.parse(core['end_datetime'])
     if not event.allday
         event.start_time = do () ->
             time = new Date(event.start_date_value)
@@ -742,17 +753,16 @@ composeEvent = (core, theme) ->
             hour = (if hour < 10 then '0' else '') + hour
             minute = (if minute < 10 then '0' else '') + minute
             "#{hour}:#{minute}"
-    if core.tags and core.tags.length > 0
-        tag_names = for tag in core.tags
-            tag.name
+    if core['tags'] and core['tags']['length'] > 0
+        tag_names = for tag in core['tags']
+            tag['name']
         tag_text = "【#{tag_names.join("/")}】"
-        event.summary = tag_text + core.summary
+        event.summary = tag_text + core['summary']
     else
-        event.summary = core.summary
-    event.description = core.description
-    # event.where = original.gd$where[0].valueString
-    # event.url = "http://vocalendar.jp/detail/?feedurl=" + original.link[1].href
-    event.url = "http://vocalendar.jp/core/events/#{core.id}"
+        event.summary = core['summary']
+    event.description = core['description']
+    event.where = core['location']
+    event.url = "http://vocalendar.jp/core/events/#{core['id']}"
     return event
 
 json_loaded = (json, cal) ->
@@ -827,8 +837,8 @@ refill_calendar = () ->
 resize_window = () ->
     nav1_height = nav1.height()
     footer1_height = footer1.height()
-    viewContainer1.css('height', ($(window).height() - nav1_height - footer1_height))
-    num_row_records = ((((($(window).height() - nav1_height - footer1_height) / num_row) | 0) / record_height) | 0) - 1
+    viewContainer1.css('height', (parentContainer.height() - nav1_height - footer1_height))
+    num_row_records = (((((parentContainer.height() - nav1_height - footer1_height) / num_row) | 0) / record_height) | 0) - 1
     num_row_records = 1 if num_row_records == 0
     monthRowRecords =
         for row_grid, r in monthRowGrids
@@ -840,7 +850,7 @@ resize_window = () ->
     do_fill()
     positionMore() if moreEventsPopup
 
-$.fn.vocalendarView = () ->
+$.fn['vocalendarView'] = () ->
     createView($(@))
     refill_calendar()
     resize_window()

@@ -48,7 +48,7 @@
 	position: relative;
 	white-space: nowrap;
 	font-size: 11px;
-	line-height:14px;
+	line-height: 14px;
 }
 
 .mv-daynames-table {
@@ -138,7 +138,6 @@
 
 .st-dtitle-today {
 	background-color: #fae183;
-	border: 1px solid #fae183;
 }
 
 .st-dtitle-fc {
@@ -162,7 +161,7 @@
 	font-family: Arial,sans-serif;
 	font-weight: bold;
 	white-space: nowrap;
-	line-height: 1.2
+	line-height: 1.2;
 }
 
 .rb-n {
@@ -174,6 +173,7 @@
 
 .st-more-c {
 	text-align: center;
+	padding-top: 3px;
 }
 
 .st-more {
