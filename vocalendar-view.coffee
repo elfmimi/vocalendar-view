@@ -349,7 +349,7 @@ positionDetail = (rect) ->
     left -= parentContainer.offset().left
     top -= parent.offset().top
     popup.css('left', left).css('top', top) # .css('width', width)
-    popup.css( 'display', 'none' ).fadeIn( 'fast' )
+    popup.css( 'display', 'none' ).css( 'visibility', 'visible' ).fadeIn( 'fast' )
 
 showDetail = (event, rect_with_pos) ->
     click = (ev) ->
@@ -363,10 +363,10 @@ showDetail = (event, rect_with_pos) ->
     max_width = $(window).width() - 120
     width = 660
     width = max_width if width > max_width
-    eventDetailPopup = $('<div class=bubble style="z-index: 3001; left: 0px; top: 0px; visibility: visible">')
+    eventDetailPopup = $('<div class=bubble style="z-index: 3001; left: 0px; top: 0px;">')
         .css( 'width', width )
         .appendTo( viewContainer1 )
-        .css( 'display', 'none' )
+        .css( 'visibility', 'hidden' )
         .data( { event: event } )
         .click( click )
         .append $('<table class=bubble-table cellspacing=0 cellpadding=0>') \

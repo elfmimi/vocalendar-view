@@ -1,3 +1,8 @@
+== v0.2.1 (2014-02-06)
+
+ * Fix the height of the details window in relation to
+   very long descriptions.
+
 == v0.2.0 (2014-02-06)
 
  * Works with older versions of jQuery.
