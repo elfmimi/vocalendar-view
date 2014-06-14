@@ -9,14 +9,16 @@ theme_colors = [
 ]
 day_unit = 86400000
 
+nav1_height =
+footer1_height =
+    undefined
 # 動的にとろうとするとうまくいかないので定数にしてある
-nav1_height = 24
-footer1_height = 20
 record_height = 17
 
 today = (new Date(Date.now()))
 show_year = today.getFullYear()
 show_month = today.getMonth()
+monthOfViewText = () -> "#{show_year}年 #{show_month+1}月"
 
 start_of_month =
 end_of_month =
@@ -60,6 +62,11 @@ remove_link = (s) ->
 rect_of_object = (o) ->
     { left: o.offset().left, top: o.offset().top, width: o.width(), height: o.height() }
 
+# calc_param() に結果及び現在のコンテナの大きさから num_row_records を計算する。
+calc_num_row_records = () ->
+    num_row_records = ((((viewContainer1.height() / num_row) | 0) / record_height) | 0) - 1
+    num_row_records = 1 if num_row_records == 0
+
 calc_param = () ->
     start_of_month = new Date(show_year, show_month, 1)
     end_of_month = new Date(show_year, show_month + 1, 0)
@@ -69,7 +76,6 @@ calc_param = () ->
     this_month_end_date = end_of_month.getDate()
     prev_month_end_date = (new Date(show_year, show_month, 0)).getDate()
     num_row = (~~( (start_c + this_month_end_date - 1) / 7)) + 1
-    num_row_records = ((((($(window).height() - nav1_height - footer1_height) / num_row) | 0) / record_height) | 0) - 1
     today_rc =
         if today.getFullYear() == show_year and today.getMonth() == show_month
             today.getDate() - 1 + start_c
@@ -111,7 +117,7 @@ createView = (parent) ->
             .append( forward_btn = $('<img id=navForward1 class="navbutton navForward" width=22 height=17 src=blank.gif title="次" tabindex=0 role=button>') ) )
     $('> tbody > tr',  navTable)
         .append( $('<td>')
-            .append( monthOfView = $('<div id=monthOfView>').text "" ) )
+            .append( monthOfView = $('<div id=monthOfView>').text monthOfViewText() ) )
     
     calendarContainer1 = $('<div id=calendarContainer1 class=view-container-border style="height: 100%">')
         .appendTo calendarContainer
@@ -164,6 +170,9 @@ createView = (parent) ->
             show_month = 0
             show_year += 1
         refill_calendar()    
+
+    nav1_height = nav1.height()
+    footer1_height = footer1.height()
 
 monthRows =
 monthRowBackgrounds =
@@ -756,7 +765,10 @@ composeEvent = (core, theme) ->
     if core['tags'] and core['tags']['length'] > 0
         tag_names = for tag in core['tags']
             tag['name']
-        tag_text = "【#{tag_names.join("/")}】"
+        memorial = tag_names.indexOf('記念日') >= 0 
+        tag_names = tag_names.filter((x)->(x!='記念日')) if memorial
+        tag_text = if memorial then "★" else ""
+        tag_text += "【#{tag_names.join("/")}】" if tag_names.length > 0
         event.summary = tag_text + core['summary']
     else
         event.summary = core['summary']
@@ -829,17 +841,22 @@ refill_calendar = () ->
     eventDetailPopup.remove() if eventDetailPopup
     moreEventsPopup.remove() if moreEventsPopup
     calc_param()
-    monthOfView.text "#{show_year}年 #{show_month+1}月"
+    calc_num_row_records()
+    monthOfView.text monthOfViewText()
     fill_month_background()
     fill_month_rows()
     reload()
 
-resize_window = () ->
-    nav1_height = nav1.height()
-    footer1_height = footer1.height()
+adjust_size = () ->
     viewContainer1.css('height', (parentContainer.height() - nav1_height - footer1_height))
-    num_row_records = (((((parentContainer.height() - nav1_height - footer1_height) / num_row) | 0) / record_height) | 0) - 1
-    num_row_records = 1 if num_row_records == 0
+
+resize_window = () ->
+    adjust_size()
+    calc_num_row_records()
+    monthRowGrids =
+        for row in monthRows
+            $('<table class=st-grid cellspacing=0 cellpadding=0>').append( '<tbody>' )
+                .appendTo row
     monthRowRecords =
         for row_grid, r in monthRowGrids
             tbody = $('> tbody', row_grid)
@@ -850,9 +867,11 @@ resize_window = () ->
     do_fill()
     positionMore() if moreEventsPopup
 
-$.fn['vocalendarView'] = () ->
+vocalendarView = () ->
     createView($(@))
+    adjust_size()
     refill_calendar()
-    resize_window()
     $(window).resize () ->
         resize_window()
+    
+$.fn['vocalendarView'] = vocalendarView
