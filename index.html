@@ -7,10 +7,40 @@ html { height: 100%; toverflow-y: hidden; }
 body { margin: 0; padding: 0; height: 100%; overflow-y: hidden; }
 </style>
 <link rel="stylesheet" type="text/css" href="vocalendar-view.css">
+<!-- <link rel="stylesheet" type="text/css" href="jquery.ui.all.css"> -->
+<!-- ThemeRoller で作成したカスタムテーマ -->
+<link rel="stylesheet" type="text/css" href="css/vocalendar-view/jquery-ui-1.10.4.custom.min.css">
+<!-- jquery-ui のCSSに微調整を加える -->
+<style type="text/css">
+.ui-datepicker { font-size: 65%; }
+.ui-datepicker-year { height: 18px; padding-top: 2px; }
+.ui-datepicker-month { height: 18px;  }
+#monthOfView { margin-left: 2px;  display: hide; }
+</style>
+<!-- datepicker で選択中の日付の色分けを無効化するために値を直書きしてオーバーライド -->
+<style type="text/css">
+.ui-datepicker .ui-state-active {
+	border: 1px solid #d3d3d3;
+	background: #d8ebe4 url("images/ui-bg_glass_75_d8ebe4_1x400.png") 50% 50% repeat-x;
+	font-weight: normal;
+	color: #555555;
+}
+.ui-datepicker .ui-state-hover {
+	border: 1px solid #999999;
+	background: #aed2c5 url("images/ui-bg_glass_75_aed2c5_1x400.png") 50% 50% repeat-x;
+	font-weight: normal;
+	color: #212121;
+}
+</style>
 <!-- <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
 <!-- <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script> -->
-<script src="//www.google.com/jsapi"></script>
-<script>google.load("jquery", "1.7.0");</script>
+<script src="http://www.google.com/jsapi"></script>
+<!-- <script>google.load("jquery", "1.7.0");</script> -->
+<!-- <script>google.load("jqueryui", "1.8.16");</script> -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/i18n/jquery-ui-i18n.min.js"></script>
+<script type="text/javascript">jQuery(function($){$.datepicker.setDefaults($.datepicker.regional['ja']);});</script>
 <script type="text/javascript" src="vocalendar-view.js"></script>
 </head>
 <body>

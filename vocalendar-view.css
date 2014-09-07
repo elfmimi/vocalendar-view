@@ -462,6 +462,12 @@ margin: 0;
 padding: 0px 5px;
 background-color: #C3EEE4; }
 
+.date-top{
+	font-weight:bold;
+	padding: 0px 3px;
+	white-space:nowrap
+}
+
 /*タブ
 .nav-table tr {
 height: 28px;

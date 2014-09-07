@@ -40,6 +40,7 @@ moreEventsPopup =
     undefined
 
 nav1 =
+datepicker =
 monthOfView =
 viewContainer1 =
 statusLine =
@@ -117,8 +118,74 @@ createView = (parent) ->
             .append( forward_btn = $('<img id=navForward1 class="navbutton navForward" width=22 height=17 src=blank.gif title="次" tabindex=0 role=button>') ) )
     $('> tbody > tr',  navTable)
         .append( $('<td>')
-            .append( monthOfView = $('<div id=monthOfView>').text monthOfViewText() ) )
-    
+            .append( datepicker = $('<input type=text id=datepicker>').css('visibility', 'hidden').css('width', 0) ) )
+        .append( $('<td>')
+            .append( monthOfView = $('<div class=date-top>') ) )
+    picker_year =
+    picker_month =
+        undefined
+
+    # マウスクリックの直前の状態を知りたいのでこのタイミングの値を記録する
+    $(document).mousedown (ev) ->
+        datepicker.data('showing-at-mousedown', datepicker.data('showing'))
+
+    datepicker.datepicker( {
+        'changeMonth': true,
+        'changeYear': true,
+        'firstDay': 1,
+        'yearSuffix': "",
+        'dateFormat': "yy年 m月 d日",
+        # 'dateFormat': "yy/mm/dd",
+        'minDate': new Date(2003, 1 - 1, 1),
+        'showButtonPanel': true,
+        'onSelect': (date) ->
+            # year_month = date.match(/^(.*)年 (.*)月/)
+            # year = parseInt(year_month[1], 10)
+            # month = parseInt(year_month[2], 10) - 1
+            date = (new Date(Date.parse(date)))
+            if show_year != date.getFullYear() or show_month != date.getMonth()
+            # if show_year != year or show_month != month
+                today = (new Date(Date.now()))
+                show_year = date.getFullYear()
+                show_month = date.getMonth()
+                # show_year = year
+                # show_month = month
+                refill_calendar()
+        'beforeShow': () ->
+            picker_year = show_year
+            picker_month = show_month
+            datepicker.datepicker('setDate', new Date(picker_year, picker_month, 1))
+            datepicker.data('showing', true)
+        'onChangeMonthYear': (year, month, inst) ->
+            picker_year = year
+            picker_month = month - 1
+            console.log("year: " + year + " month: " + month)
+        'onClose': (date) ->
+            if show_year != picker_year or show_month != picker_month
+                today = (new Date(Date.now()))
+                show_year = picker_year
+                show_month = picker_month
+                refill_calendar()
+            else
+                monthOfView.text monthOfViewText()
+            datepicker.data('showing', false)
+    } )
+
+    # datepicker.datepicker("option", $.datepicker.regional['ja'])
+    # console.log( $.datepicker.regional['ja'] )
+
+    monthOfView.click () ->
+        if !datepicker.data('showing-at-mousedown')
+            datepicker.datepicker('show')
+
+    $('> tbody > tr',  navTable)
+        .append( $('<td>')
+            .append( $('<div style="margin-left: 4px; width: 14px; height: 14px; background-color: #008877;">').click () ->
+                if !datepicker.data('showing-at-mousedown')
+                    inst = $.datepicker._getInst(datepicker);
+                    datepicker.currentDay = undefined
+                    datepicker.datepicker('show') ) )
+
     calendarContainer1 = $('<div id=calendarContainer1 class=view-container-border style="height: 100%">')
         .appendTo calendarContainer
     viewContainer1 = $('<div id=viewContainer1 class=view-container style="height: 560px">')
