@@ -101,7 +101,10 @@ createView = (parent) ->
     $(window).keydown (ev) ->
         if ev.keyCode == 27 # ESC
             hideDetail() or hideMore()
-    calendarContainer.click ->
+    #calendarContainer.click ->
+    #    hideDetail() or hideMore()
+    # カレンダービューウェジェットの外のクリックを拾う
+    $(window).click (ev) ->
         hideDetail() or hideMore()
 
     nav1 = $('<div id=nav1 class=header style="overflow: hidden">')
