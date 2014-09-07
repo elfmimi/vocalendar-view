@@ -185,8 +185,6 @@ createView = (parent) ->
         .append( $('<td>')
             .append( $('<div style="margin-left: 4px; width: 14px; height: 14px; background-color: #008877;">').click () ->
                 if !datepicker.data('showing-at-mousedown')
-                    inst = $.datepicker._getInst(datepicker);
-                    datepicker.currentDay = undefined
                     datepicker.datepicker('show') ) )
 
     calendarContainer1 = $('<div id=calendarContainer1 class=view-container-border style="height: 100%">')
