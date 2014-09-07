@@ -1,3 +1,9 @@
+== v0.2.3 (2014-09-07)
+
+* Use datepicker out of jquery-ui.
+* Included custom jquery-ui theme, that is css & images.
+* Clicking outside of the widget to close popup windows.
+
 == v0.2.2 (2014-06-15)
 
 * Memorial events will be marked with starts.
